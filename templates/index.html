@@ -1,0 +1,35 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" id="url" name="url" placeholder="Drop your URL here">
+            <input type="submit" value="Submit">
+            {% if short_url %}
+                <div class="short-url-container">
+                    <h4><a href="{{ short_url }}" class="short-url" target="_blank">{{ short_url }}</a></h4>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('{{ short_url }}')">Copy Link</button>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Shortened URL copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
